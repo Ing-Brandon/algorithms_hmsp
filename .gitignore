@@ -1,6 +1,7 @@
 # Ignorar archivos compilados de Python
 __pycache__/
 *.pyc
+*.log
 
 # Es muy recomendable ignorar también entornos virtuales y variables de entorno
 venv/
