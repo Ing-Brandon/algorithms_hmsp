@@ -1,56 +1,40 @@
-from data.datagenerator import GeneradorTareas
-from soluciones.greedy_priority_queues import GreedyQueues
+import logging
+from processing.processingdata import ProcesaDatos
 
 
-# Genera datos con distribución específica
+
+def main():
+
+    # Declaración de logs
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(message)s', # Para agregar fecha y hora automática: %(asctime)s 
+        handlers=[
+            logging.FileHandler("execution_hmsp.log"),
+            logging.StreamHandler()
+        ]
+    )
+
+    logging.info(">>>> Propuestas de solución para 'Homogeneous Multiprocessor Scheduling Problem'<<<<")
+    
+    # Número de procesadores fijo = 10
+    num_processors = 10
+
+    # Número de tareas por instancia
+    tamanio_tareas = [50, 100, 200, 400]
+
+    #Tipo de distribución de tareas que va a generar
+    tipo_distribucion="exponencial" 
+    #tipo_distribucion="pareto"
+
+    processing = ProcesaDatos()
+    
+    processing.Procesamiento(tipo_distribucion, tamanio_tareas, num_processors)
+
+    #Aquí se agrega la línea para graficar
+    #processing.graficar()
+    logging.info(">>>> FIN DE LA EJECUCIÓN <<<<")
 
 
-gen = GeneradorTareas()
-#>>>>>>>>>>> Generación de tareas con distribución exponencial
-tasks_exp50 = gen.generar_exponencial(50)
-task_exp100 = gen.generar_exponencial(100)
-task_exp200 = gen.generar_exponencial(200)
-task_exp200 = gen.generar_exponencial(100)
-
-#>>>>>>>>>>> Generación de tareas con distribución exponencial
-tasks_par50 = gen.generar_pareto(50)
-tasks_par100 = gen.generar_pareto(100)
-tasks_par200 = gen.generar_pareto(200)
-tasks_par400 = gen.generar_pareto(400)
-#print("pareto", tasks_par[:10])
-
-
-#Ejemplo para 10 ordenadores con distribución exponencial Greedy con min-heap
-
-asignaciones, cargas, tiempo = GreedyQueues.schedule_tasks_on_processors(tasks_exp50, num_processors=10, flag=False)
-
-
-print("\n >>> Asignaciones:")
-for i, a in enumerate(asignaciones):
-    print(f"Procesador {i}: {a}")
-
-print("\nCargas finales por procesador:")
-for i, c in enumerate(cargas):
-    print(f"Procesador {i}: {c}")
-
-print(f"\n >>> Tiempo de ejecución: {tiempo:.5f} ms")
-
-
-#Ejemplo para 10 ordenadores con distribución pareto Greedy con min-heap
-
-asignaciones2, cargas2, tiempo2 = GreedyQueues.schedule_tasks_on_processors(tasks_par50, num_processors=10, flag=True)
-
-print("\n >>> Asignaciones:")
-for i, a in enumerate(asignaciones):
-    print(f"Procesador {i}: {a}")
-
-print("\nCargas finales por procesador:")
-for i, c in enumerate(cargas2):
-    print(f"Procesador {i}: {c}")
-
-print("\n >>> Asignaciones:")
-for i, a in enumerate(asignaciones2):
-    print(f"Procesador {i}: {a}")
-
-
-print(f"\n >>> Tiempo de ejecución 2: {tiempo2:.5f} ms")
+if __name__ == "__main__":
+    main()
