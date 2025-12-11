@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 class GeneradorTareas:
 
-    def generar_exponencial(self, num_tareas, alfa=10):
+    def generar_exponencial(self, num_tareas, alfa=0.2):
         """
         Genera num_tareas duraciones con distribución exponencial (parámetro alfa).
         Regresa una lista de duraciones.
@@ -28,6 +28,31 @@ class GeneradorTareas:
             duration = xm * (1 - x)**(-1/alfa)    #duration=xm*(1-x)**(-1/a) 
             duraciones.append(duration)
         return duraciones
+
+
+    def generar_instancia(self, num_tareas, media_duracion, semilla, flag):
+        """
+        Genera una instancia del problema.
+        - num_tareas: Número de tareas (n)
+        - media_duracion: 1/lambda para la distribución exponencial
+        - semilla: Para reproducibilidad
+        """
+        random.seed(semilla)
+        # Generamos tiempos usando distribución exponencial
+        # random.expovariate(lambd) toma lambd = 1 / media
+        lambd = 1.0 / media_duracion
+
+        if flag:
+            duraciones = [random.expovariate(lambd) for _ in range(num_tareas)]
+        else:
+            duraciones = [random.paretovariate(lambd) for _ in range(num_tareas)]
+        
+        # Redondeamos a 2 decimales para facilitar la lectura, aunque Gurobi maneja floats
+        duraciones = [round(d, 2) for d in duraciones]
+        
+        return duraciones
+    
+
 
     def graficar(self, duraciones, titulo="Histograma", bins=100):
         """
