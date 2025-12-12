@@ -4,7 +4,7 @@ from algorithms.greedy_priority_queues import GreedyQueues
 from algorithms.guroby_solution import GurobiSolution
 
 
-import random
+#import random
 
 
 class ProcesaDatos:
@@ -71,10 +71,10 @@ class ProcesaDatos:
 
 
 
-                ###makespan_gurobi, tiempo_gurobi = GurobiSolution.resolver_exacto_gurobi(num_processors, tasks, tiempo_limite)
+                makespan_gurobi, tiempo_gurobi = GurobiSolution.resolver_exacto_gurobi(num_processors, tasks, tiempo_limite)
                 
-                makespan_gurobi=makespan_ls/(1.5+0.5*random.random())
-                tiempo_gurobi=tiempo_ls*10
+                #makespan_gurobi=makespan_ls/(1.5+0.5*random.random())
+                #tiempo_gurobi=tiempo_ls*10
 
 
                 logging.info(f"\n >>> Gurobi para instancia de {tamanio_tareas[i]} tareas  | Repetición {r} <<<")
