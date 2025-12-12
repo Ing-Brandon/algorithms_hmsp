@@ -46,8 +46,8 @@ class ProcesaDatos:
 
                 print(">>>>>>>>>>>>>>>> Repetición: ",r)
                 
-                tasks = gen.generar_instancia( tamanio_tareas[i], media_duracion, semilla, flagI)
-
+                tasks = gen.generar_instancia( tamanio_tareas[i], media_duracion, random.random(), flagI)
+                
                 # >>>>>>>>>>>>>>> LIST SCHEDULING
                 asignaciones_ls, cargas_ls, makespan_ls, tiempo_ls = GreedyQueues.schedule_tasks_on_processors(tasks, num_processors, flag=False)
                 logging.info(f"\n >>> List Scheduling para instancia de {tamanio_tareas[i]} tareas | Repetición {r} <<<")

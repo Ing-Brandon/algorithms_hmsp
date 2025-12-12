@@ -75,6 +75,7 @@ def main():
     graficas=Grafica()
     graficas.procesar_informacion_makespan(makespans_t_gurobi, makespans_t_ls, makespans_t_lpt)
     graficas.procesar_informacion_tiempos(tiempos_t_gurobi,  tiempos_t_ls,  tiempos_t_lpt)
+    graficas.guardar_grafica(tipo_distribucion+".jpg")
     logging.info(">>>> FIN DE LA EJECUCIÓN <<<<")
     tf=time.time() - start_time
     logging.info(f"Tiempo total: {tf}")

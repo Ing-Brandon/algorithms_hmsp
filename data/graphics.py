@@ -36,13 +36,13 @@ class Grafica:
             self.makespan["GOROBI"][n_tareas]=np.array(self.makespan["GOROBI"][n_tareas])/np.array(self.makespan["GOROBI"][n_tareas]) 
             #GENERACION DE PUNTOS EN LA RECTA
 
-            self.medias_gurobi.append(self.makespan["GOROBI"][n_tareas].mean())
-            self.medias_greedy1.append(self.makespan["GREEDY1"][n_tareas].mean())
-            self.medias_greedy2.append(self.makespan["GREEDY2"][n_tareas].mean())
-            self.y_err_greedy1.append(1.96*self.makespan["GREEDY1"][n_tareas].std())
-            self.y_err_greedy2.append(1.96*self.makespan["GREEDY2"][n_tareas].std())
+            self.medias_gurobi.append(np.array(self.makespan["GOROBI"][n_tareas]).mean())
+            self.medias_greedy1.append(np.array(self.makespan["GREEDY1"][n_tareas]).mean())
+            self.medias_greedy2.append(np.array(self.makespan["GREEDY2"][n_tareas]).mean())
+            self.y_err_greedy1.append(1.96*np.array(self.makespan["GREEDY1"][n_tareas]).std())
+            self.y_err_greedy2.append(1.96*np.array(self.makespan["GREEDY2"][n_tareas]).std())
         self.graficar_makespans()
-
+    
     #self.medias_gurobi=[1,1,1,1]
     #self.medias_greedy1=[1.2,1.3,1.1,1.4]
     #self.medias_greedy2=[1.6,1.4,1.8,1.7]
@@ -57,10 +57,11 @@ class Grafica:
         self.ax[0].plot(self.n_tareas_list,self.medias_greedy2,'g-',linewidth=2)
         self.ax[0].plot(self.n_tareas_list,4*[1.5],'c--')
         self.ax[0].plot(self.n_tareas_list,4*[2],'y--')
-        self.ax[0].errorbar(self.n_tareas_list,self.medias_greedy1,self.y_err_greedy1,fmt='ro',capsize=3)
-        self.ax[0].errorbar(self.n_tareas_list,self.medias_greedy2,self.y_err_greedy2,fmt='go',capsize=3)
-
-        self.ax[0].legend(["Gurobi","List Scheduling","Longest Time Processing First😬"])
+        self.ax[0].errorbar(self.n_tareas_list,self.medias_greedy1,self.y_err_greedy1,fmt='r-o',capsize=3)
+        self.ax[0].errorbar(self.n_tareas_list,self.medias_greedy2,self.y_err_greedy2,fmt='g-o',capsize=3)
+        self.ax[0].set_xlabel("Cantidad de tareas")
+        self.ax[0].set_ylabel("Makespans(ms)")
+        self.ax[0].legend(["Gurobi","List Scheduling","Longest Time Processing First"])
 
     def inicializar_variablesTemporales(self):
         self.tiempos={}
@@ -105,13 +106,15 @@ class Grafica:
 
     def graficar_tiempos(self):
         self.ax[1].set_title("Tiempos de ejecución")
-        self.ax[1].plot(self.n_tareas_list,self.medias_tiempos_gurobi,'b-',linewidth=2)
-        self.ax[1].plot(self.n_tareas_list,self.medias_tiempos_greedy1,'r-',linewidth=2)
-        self.ax[1].plot(self.n_tareas_list,self.medias_tiempos_greedy2,'g-',linewidth=2)
-        self.ax[1].errorbar(self.n_tareas_list,self.medias_tiempos_greedy1,self.y_err_tiempos_greedy1,fmt='ro',capsize=3)
-        self.ax[1].errorbar(self.n_tareas_list,self.medias_tiempos_greedy2,self.y_err_tiempos_greedy2,fmt='go',capsize=3)
-
-        self.ax[1].legend(["Gurobi","List Scheduling","Longest Time Processing First😬"])
+        self.ax[1].plot(self.n_tareas_list,self.medias_tiempos_gurobi,'b-o',linewidth=2)
+        self.ax[1].plot(self.n_tareas_list,self.medias_tiempos_greedy1,'r-o',linewidth=2)
+        self.ax[1].plot(self.n_tareas_list,self.medias_tiempos_greedy2,'g-o',linewidth=2)
+        self.ax[1].legend(["Gurobi","List Scheduling","Longest Time Processing First"])
+        self.ax[1].set_xlabel("Cantidad de tareas")
+        self.ax[1].set_ylabel("Tiempo de procesamiento(ms)")
+        self.fig.tight_layout(rect=[0, 0, 1, 0.95])
         self.fig.set_size_inches(8, 6)
-        self.fig.suptitle("Metricas metricosas XD", fontsize=16)
+        self.fig.suptitle("Metricas metricosas XD\n", fontsize=24,fontfamily="serif",)
         plt.show()
+    def guardar_grafica(self,nombre_figura):
+        self.fig.savefig(nombre_figura)
