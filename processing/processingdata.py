@@ -4,7 +4,7 @@ from algorithms.greedy_priority_queues import GreedyQueues
 from algorithms.guroby_solution import GurobiSolution
 
 
-#import random
+import random
 
 
 class ProcesaDatos:
