@@ -2,7 +2,7 @@ import logging
 import time
 from processing.processingdata import ProcesaDatos
 from data.graphicclass import Graphics
-
+from data.graphics import Grafica
 
 def main():
     
@@ -72,7 +72,9 @@ def main():
 
     #Graphics.graficar_resultados(tamanio_tareas, avg_makespan_ls, avg_makespan_lpt, avg_times_gurobi, avg_times_ls, avg_times_lpt)
     #processing.graficar()
-    
+    graficas=Grafica()
+    graficas.procesar_informacion_makespan(makespans_t_gurobi, makespans_t_ls, makespans_t_lpt)
+    graficas.procesar_informacion_tiempos(tiempos_t_gurobi,  tiempos_t_ls,  tiempos_t_lpt)
     logging.info(">>>> FIN DE LA EJECUCIÓN <<<<")
     tf=time.time() - start_time
     logging.info(f"Tiempo total: {tf}")
