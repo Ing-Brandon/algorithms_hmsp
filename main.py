@@ -36,49 +36,46 @@ def main():
 
     processing = ProcesaDatos()
 
-    avg_makespan_ls = []
-    avg_makespan_lpt = []
-    avg_times_gurobi = []
-    avg_times_ls = []
-    avg_times_lpt = []
-    
-    #Aquí va el for de las 10 instancias
-    for i in range(repeticiones):
-        print(">>>>>>>>>>>>>>>> Repetición: ",i)
-        sum_makespan_ls = 0
-        sum_makespan_lpt = 0
-        sum_time_gurobi = 0
-        sum_time_ls = 0
-        sum_time_lpt = 0
 
-        makespan_ls, tiempo_ls, makespan_lpt, tiempo_lpt, makespan_gurobi, tiempo_gurobi = processing.Procesamiento(tipo_distribucion, tamanio_tareas, num_processors)
 
-        if makespan_gurobi > 0:
-            sum_makespan_ls += (makespan_ls / makespan_gurobi)
-            sum_makespan_lpt += (makespan_lpt / makespan_gurobi)
-        else:
-            sum_makespan_ls += 1
-            sum_makespan_lpt += 1
-    
-        sum_time_gurobi += tiempo_gurobi
-        sum_time_ls  += tiempo_ls
-        sum_time_lpt += tiempo_lpt
-    
+    makespans_t_gurobi, makespans_t_ls, makespans_t_lpt,  tiempos_t_gurobi,  tiempos_t_ls,  tiempos_t_lpt = processing.Procesamiento(repeticiones, tamanio_tareas, num_processors)
 
-    avg_makespan_ls.append(sum_makespan_ls / repeticiones)
-    avg_makespan_lpt.append(sum_makespan_lpt / repeticiones)
-        
-    avg_times_gurobi.append(sum_time_gurobi / repeticiones)
-    avg_times_ls.append(sum_time_ls / repeticiones)
-    avg_times_lpt.append(sum_time_lpt / repeticiones)
+    
+    logging.info("makespans_totales_gurobi")
+    for fila_mg in makespans_t_gurobi:
+        logging.info(fila_mg)
+
+    
+    logging.info("makespans_totales_ls")
+    for fila_mls in makespans_t_ls:
+        logging.info(fila_mls)
+    
+    logging.info("makespans_totales_lpt")
+    for fila_lpt in makespans_t_lpt:
+        logging.info(fila_lpt)
+    
+    logging.info("tiempos_totales_gurobi")
+    for fila_tg in tiempos_t_gurobi:
+        logging.info(fila_tg)
+
+    logging.info("tiempos_totales_ls")
+    for fila_tls in tiempos_t_ls:
+        logging.info(fila_tls)
+
+    logging.info("tiempos_totales_lpt")
+    for fila_tlpt in tiempos_t_lpt:
+        logging.info(fila_tlpt)
+
+
 
     #Aquí se agrega la línea para graficar
 
-    Graphics.graficar_resultados(tamanio_tareas, avg_makespan_ls, avg_makespan_lpt, avg_times_gurobi, avg_times_ls, avg_times_lpt)
+    #Graphics.graficar_resultados(tamanio_tareas, avg_makespan_ls, avg_makespan_lpt, avg_times_gurobi, avg_times_ls, avg_times_lpt)
     #processing.graficar()
+    
     logging.info(">>>> FIN DE LA EJECUCIÓN <<<<")
     tf=time.time() - start_time
-    logging.info("Tiempo total: ", tf)
+    logging.info(f"Tiempo total: {tf}")
 
 
 if __name__ == "__main__":

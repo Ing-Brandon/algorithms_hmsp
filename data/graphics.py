@@ -2,55 +2,114 @@ import numpy as np
 import matplotlib.pyplot as plt
 import numpy as np
 
-makespan={}
-makespan["GOROBI"]={}
-makespan["GREEDY1"]={}
-makespan["GREEDY2"]={}
+class GraficaMakespan:
+    def __init__(self,makespan_gurobi,makespan_greedy1,makespan_greedy2):
+        self.makespan={}
+        self.makespan["GOROBI"]={}
+        self.makespan["GREEDY1"]={}
+        self.makespan["GREEDY2"]={}
 
-medias_gurobi=[]
-medias_greedy1=[]
-medias_greedy2=[]
+        self.medias_gurobi=[]
+        self.medias_greedy1=[]
+        self.medias_greedy2=[]
 
-y_err_greedy1 = []
-y_err_greedy2 = []
+        self.y_err_greedy1 = []
+        self.y_err_greedy2 = []
 
-n_tareas_list=[50,100,200,400]
-for n_tareas in [50,100,200,400]:
-    makespan["GOROBI"][n_tareas]=[1,2,3,4,8,7,9,64,4,17] ## SE MANDA A LLAMAR FUNCION DE GOROBI REGRESA ARREGLO DE MAKESPANS Y TIEMPOS
-    makespan["GREEDY1"][n_tareas]=[1,2,3,4,8,7,9,64,4,17] ## SE MANDA A LLAMAR FUNCION DE GOROBI REGRESA ARREGLO DE MAKESPANS Y TIEMPOS
-    makespan["GREEDY2"][n_tareas]=[1,2,3,4,8,7,9,64,4,17] ## SE MANDA A LLAMAR FUNCION DE GOROBI REGRESA ARREGLO DE MAKESPANS Y TIEMPOS
+        self.n_tareas_list=[50,100,200,400]
+    def procesar_informacion(self,makespan_gurobi,makespan_greedy1,makespan_greedy2):
+        for i,n_tareas in enumerate([50,100,200,400]):
+            self.makespan["GOROBI"][n_tareas]=makespan_gurobi[i] ## SE MANDA A LLAMAR FUNCION DE GOROBI REGRESA ARREGLO DE MAKESPANS Y TIEMPOS 
+            self.makespan["GREEDY1"][n_tareas]=makespan_greedy1[i] ## SE MANDA A LLAMAR FUNCION DE GOROBI REGRESA ARREGLO DE MAKESPANS Y TIEMPOS
+            self.makespan["GREEDY2"][n_tareas]=makespan_greedy2[i] ## SE MANDA A LLAMAR FUNCION DE GOROBI REGRESA ARREGLO DE MAKESPANS Y TIEMPOS
 
-    #NORMALIZACIÓN
-    makespan["GOROBI"][n_tareas]=np.array(makespan["GOROBI"][n_tareas])/np.array(makespan["GOROBI"][n_tareas]) 
-    makespan["GREEDY1"][n_tareas]=np.array(makespan["GREEDY1"][n_tareas])/np.array(makespan["GOROBI"][n_tareas]) 
-    makespan["GREEDY2"][n_tareas]=np.array(makespan["GREEDY2"][n_tareas])/np.array(makespan["GOROBI"][n_tareas])
+            #NORMALIZACIÓN
+            self.makespan["GOROBI"][n_tareas]=np.array(self.makespan["GOROBI"][n_tareas])/np.array(self.makespan["GOROBI"][n_tareas]) 
+            self.makespan["GREEDY1"][n_tareas]=np.array(self.makespan["GREEDY1"][n_tareas])/np.array(self.makespan["GOROBI"][n_tareas]) 
+            self.makespan["GREEDY2"][n_tareas]=np.array(self.makespan["GREEDY2"][n_tareas])/np.array(self.makespan["GOROBI"][n_tareas])
 
-    #GENERACION DE PUNTOS EN LA RECTA
+            #GENERACION DE PUNTOS EN LA RECTA
 
-    #medias_gurobi=makespan["GOROBI"][n_tareas].mean()
-    #medias_greedy1=makespan["GREEDY1"][n_tareas].mean()
-    #medias_greedy2=makespan["GREEDY2"][n_tareas].mean()
-    #y_err_greedy1.append(1.96*makespan["GREEDY1"][n_tareas].std())
-    #y_err_greedy2.append(1.96*makespan["GREEDY2"][n_tareas].std())
-
-
-medias_gurobi=[1,1,1,1]
-medias_greedy1=[1.2,1.3,1.1,1.4]
-medias_greedy2=[1.6,1.4,1.8,1.7]
-
-y_err_greedy1 = [0.03,0.06,0.04,0.07]
-y_err_greedy2 = [0.05,0.03,0.02,0.03]
+            self.medias_gurobi=self.makespan["GOROBI"][n_tareas].mean()
+            self.medias_greedy1=self.makespan["GREEDY1"][n_tareas].mean()
+            self.medias_greedy2=self.makespan["GREEDY2"][n_tareas].mean()
+            self.y_err_greedy1.append(1.96*self.makespan["GREEDY1"][n_tareas].std())
+            self.y_err_greedy2.append(1.96*self.makespan["GREEDY2"][n_tareas].std())
 
 
-fig, ax = plt.subplots()
-ax.plot(n_tareas_list,medias_gurobi,'b-',linewidth=2)
-ax.plot(n_tareas_list,medias_greedy1,'r-',linewidth=2)
-ax.plot(n_tareas_list,medias_greedy2,'g-',linewidth=2)
-ax.plot(n_tareas_list,4*[1.5],'c--')
-ax.plot(n_tareas_list,4*[2],'y--')
-ax.errorbar(n_tareas_list,medias_greedy1,y_err_greedy1,fmt='ro',capsize=3)
-ax.errorbar(n_tareas_list,medias_greedy2,y_err_greedy2,fmt='go',capsize=3)
+    #self.medias_gurobi=[1,1,1,1]
+    #self.medias_greedy1=[1.2,1.3,1.1,1.4]
+    #self.medias_greedy2=[1.6,1.4,1.8,1.7]
 
-ax.legend(["Gurobi","Greedy 1","Greedy 2"])
+    #y_err_greedy1 = [0.03,0.06,0.04,0.07]
+    #y_err_greedy2 = [0.05,0.03,0.02,0.03]
 
-plt.show()
+    def graficar(self):
+        fig, ax = plt.subplots()
+        ax.plot(self.n_tareas_list,self.medias_gurobi,'b-',linewidth=2)
+        ax.plot(self.n_tareas_list,self.medias_greedy1,'r-',linewidth=2)
+        ax.plot(self.n_tareas_list,self.medias_greedy2,'g-',linewidth=2)
+        ax.plot(self.n_tareas_list,4*[1.5],'c--')
+        ax.plot(self.n_tareas_list,4*[2],'y--')
+        ax.errorbar(self.n_tareas_list,self.medias_greedy1,self.y_err_greedy1,fmt='ro',capsize=3)
+        ax.errorbar(self.n_tareas_list,self.medias_greedy2,self.y_err_greedy2,fmt='go',capsize=3)
+
+        ax.legend(["Gurobi","Greedy 1","Greedy 2"])
+
+        plt.show()
+
+class GraficaTiempos:
+    def __init__(self,tiempos_gurobi,tiempos_greedy1,tiempos_greedy2):
+        self.tiempos={}
+        self.tiempos["GOROBI"]={}
+        self.tiempos["GREEDY1"]={}
+        self.tiempos["GREEDY2"]={}
+
+        self.medias_gurobi=[]
+        self.medias_greedy1=[]
+        self.medias_greedy2=[]
+
+        self.y_err_greedy1 = []
+        self.y_err_greedy2 = []
+
+        self.n_tareas_list=[50,100,200,400]
+    def procesar_informacion(self,tiempos_gurobi,tiempos_greedy1,tiempos_greedy2):
+        for i,n_tareas in enumerate([50,100,200,400]):
+            self.tiempos["GOROBI"][n_tareas]=tiempos_gurobi[i] ## SE MANDA A LLAMAR FUNCION DE GOROBI REGRESA ARREGLO DE MAKESPANS Y TIEMPOS 
+            self.tiempos["GREEDY1"][n_tareas]=tiempos_greedy1[i] ## SE MANDA A LLAMAR FUNCION DE GOROBI REGRESA ARREGLO DE MAKESPANS Y TIEMPOS
+            self.tiempos["GREEDY2"][n_tareas]=tiempos_greedy2[i] ## SE MANDA A LLAMAR FUNCION DE GOROBI REGRESA ARREGLO DE MAKESPANS Y TIEMPOS
+
+            #NORMALIZACIÓN
+            #self.tiempos["GOROBI"][n_tareas]=np.array(self.tiempos["GOROBI"][n_tareas])/np.array(self.tiempos["GOROBI"][n_tareas]) 
+            #self.tiempos["GREEDY1"][n_tareas]=np.array(self.tiempos["GREEDY1"][n_tareas])/np.array(self.tiempos["GOROBI"][n_tareas]) 
+            #self.tiempos["GREEDY2"][n_tareas]=np.array(self.tiempos["GREEDY2"][n_tareas])/np.array(self.tiempos["GOROBI"][n_tareas])
+
+            #GENERACION DE PUNTOS EN LA RECTA
+
+            self.medias_gurobi=self.tiempos["GOROBI"][n_tareas].mean()
+            self.medias_greedy1=self.tiempos["GREEDY1"][n_tareas].mean()
+            self.medias_greedy2=self.tiempos["GREEDY2"][n_tareas].mean()
+            self.y_err_greedy1.append(1.96*self.tiempos["GREEDY1"][n_tareas].std())
+            self.y_err_greedy2.append(1.96*self.tiempos["GREEDY2"][n_tareas].std())
+
+
+    #self.medias_gurobi=[1,1,1,1]
+    #self.medias_greedy1=[1.2,1.3,1.1,1.4]
+    #self.medias_greedy2=[1.6,1.4,1.8,1.7]
+
+    #y_err_greedy1 = [0.03,0.06,0.04,0.07]
+    #y_err_greedy2 = [0.05,0.03,0.02,0.03]
+
+    def graficar(self):
+        fig, ax = plt.subplots()
+        ax.plot(self.n_tareas_list,self.medias_gurobi,'b-',linewidth=2)
+        ax.plot(self.n_tareas_list,self.medias_greedy1,'r-',linewidth=2)
+        ax.plot(self.n_tareas_list,self.medias_greedy2,'g-',linewidth=2)
+        ax.plot(self.n_tareas_list,4*[1.5],'c--')
+        ax.plot(self.n_tareas_list,4*[2],'y--')
+        ax.errorbar(self.n_tareas_list,self.medias_greedy1,self.y_err_greedy1,fmt='ro',capsize=3)
+        ax.errorbar(self.n_tareas_list,self.medias_greedy2,self.y_err_greedy2,fmt='go',capsize=3)
+
+        ax.legend(["Gurobi","Greedy 1","Greedy 2"])
+
+        plt.show()
