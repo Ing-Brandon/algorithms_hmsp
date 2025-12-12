@@ -30,10 +30,7 @@ class Grafica:
             self.makespan["GREEDY2"][n_tareas]=makespan_greedy2[i] ## SE MANDA A LLAMAR FUNCION DE GOROBI REGRESA ARREGLO DE MAKESPANS Y TIEMPOS
 
             #NORMALIZACIÓN
-            
-            print("tuti  ",self.makespan["GOROBI"][n_tareas])
-            print("tuti  ",self.makespan["GREEDY1"][n_tareas])
-            print("tuti  ",self.makespan["GREEDY2"][n_tareas])
+
             self.makespan["GREEDY1"][n_tareas]=np.array(self.makespan["GREEDY1"][n_tareas])/np.array(self.makespan["GOROBI"][n_tareas]) 
             self.makespan["GREEDY2"][n_tareas]=np.array(self.makespan["GREEDY2"][n_tareas])/np.array(self.makespan["GOROBI"][n_tareas])
             self.makespan["GOROBI"][n_tareas]=np.array(self.makespan["GOROBI"][n_tareas])/np.array(self.makespan["GOROBI"][n_tareas]) 
@@ -63,7 +60,7 @@ class Grafica:
         self.ax[0].errorbar(self.n_tareas_list,self.medias_greedy1,self.y_err_greedy1,fmt='ro',capsize=3)
         self.ax[0].errorbar(self.n_tareas_list,self.medias_greedy2,self.y_err_greedy2,fmt='go',capsize=3)
 
-        self.ax[0].legend(["Gurobi","Greedy 1","Greedy 2"])
+        self.ax[0].legend(["Gurobi","List Scheduling","Longest Time Processing First😬"])
 
     def inicializar_variablesTemporales(self):
         self.tiempos={}
@@ -114,7 +111,7 @@ class Grafica:
         self.ax[1].errorbar(self.n_tareas_list,self.medias_tiempos_greedy1,self.y_err_tiempos_greedy1,fmt='ro',capsize=3)
         self.ax[1].errorbar(self.n_tareas_list,self.medias_tiempos_greedy2,self.y_err_tiempos_greedy2,fmt='go',capsize=3)
 
-        self.ax[1].legend(["Gurobi","Greedy 1","Greedy 2"])
+        self.ax[1].legend(["Gurobi","List Scheduling","Longest Time Processing First😬"])
         self.fig.set_size_inches(8, 6)
         self.fig.suptitle("Metricas metricosas XD", fontsize=16)
         plt.show()
